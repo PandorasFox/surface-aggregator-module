@@ -1230,7 +1230,7 @@ static irqreturn_t surface_sam_irq_handler(int irq, void *dev_id)
 {
 	struct serdev_device *serdev = dev_id;
 
-	dev_info(&serdev->dev, "wake irq triggered\n");
+	dev_info(&serdev->dev, "wake irq triggered: %d\n", irq);
 	return IRQ_HANDLED;
 }
 
@@ -1336,6 +1336,8 @@ static int surface_sam_ssh_suspend(struct device *dev)
 				surface_sam_ssh_release(ec);
 				return status;
 			}
+	
+			dev_dbg(dev, "EC IRQs should be enable_irq_wake'd nowg\n");
 
 			ec->irq_wakeup_enabled = true;
 		} else {
